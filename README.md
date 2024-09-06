@@ -15,7 +15,7 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
 * `git clone git@github.com:jprivet-dev/symfony-starter.git`
 * `cd symfony-starter`
 * `. install.sh`:
-  * That clone `git@github.com:jprivet-dev/symfony-docker`
+  * That clone `git@github.com:jprivet-dev/symfony-docker` in `docker` directory
   * Build fresh images
   * Set up and start a fresh Symfony project in `app` directory
   * Fix permissions
