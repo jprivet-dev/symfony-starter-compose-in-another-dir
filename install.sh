@@ -10,10 +10,10 @@ printf "USER_ID: ${USER_ID}\n"
 printf "GROUP_ID: ${GROUP_ID}\n"
 
 branch_args=""
-[[ "${1}" != "" ]] && branch_args="-b ${branch}"
+[[ "${1}" != "" ]] && branch_args="-b ${1}"
 
 APP_DIR=${PWD}/app
-DOCKER_DIR=docker
+DOCKER_DIR=${PWD}/docker
 DOCKER_REP=git@github.com:jprivet-dev/symfony-docker.git
 PROJECT_NAME=${PWD##*/}
 SERVER_NAME=${PROJECT_NAME}.localhost
