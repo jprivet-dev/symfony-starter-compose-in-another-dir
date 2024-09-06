@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Usage:
-# $ . install.sh
+# $ . install.sh [branch]
 
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
@@ -9,30 +9,41 @@ GROUP_ID=$(id -g)
 printf "USER_ID: ${USER_ID}\n"
 printf "GROUP_ID: ${GROUP_ID}\n"
 
-APP=${PWD}/app
-FRANKENPHP=${PWD}/symfony-docker
+branch_args=""
+[[ "${1}" != "" ]] && branch_args="-b ${branch}"
+
+APP_DIR=${PWD}/app
+DOCKER_DIR=docker
+DOCKER_REP=git@github.com:jprivet-dev/symfony-docker.git
 PROJECT_NAME=${PWD##*/}
 SERVER_NAME=${PROJECT_NAME}.localhost
-BASE=symfony-docker/compose.yaml
-OVERRIDE=symfony-docker/compose.override.yaml
+COMPOSE_BASE=${DOCKER_DIR}/compose.yaml
+COMPOSE_OVERRIDE=${DOCKER_DIR}/compose.override.yaml
 
-if [ -d symfony-docker ]; then
+case $default in
+  "${YES}" | "${YES_SHORT}") default="${YES}" ;;
+  "${NO}" | "${NO_SHORT}") default="${NO}" ;;
+  *) default="${YES}" ;;
+esac
+
+if [ -d ${DOCKER_DIR} ]; then
   printf "Symfony Docker already cloned\n"
 else
   printf "Clone Symfony Docker (next branch)\n"
-  git clone git@github.com:jprivet-dev/symfony-docker.git -b next
+  git clone ${DOCKER_REP} ${DOCKER_DIR} ${branch_args}
 fi
 
-sleep 1
-
 printf "Build fresh images\n"
-APP=${APP} FRANKENPHP=${FRANKENPHP} SERVER_NAME=${SERVER_NAME} docker compose -p ${PROJECT_NAME} -f ${BASE} -f ${OVERRIDE} build --no-cache
+APP_DIR=${APP_DIR} DOCKER_DIR=${DOCKER_DIR} SERVER_NAME=${SERVER_NAME} \
+  docker compose -p ${PROJECT_NAME} -f ${COMPOSE_BASE} -f ${COMPOSE_OVERRIDE} build --no-cache
 
 printf "Set up and start a fresh Symfony project\n"
-APP=${APP} FRANKENPHP=${FRANKENPHP} SERVER_NAME=${SERVER_NAME} docker compose -p ${PROJECT_NAME} -f ${BASE} -f ${OVERRIDE} up --pull always -d --wait
+APP_DIR=${APP_DIR} DOCKER_DIR=${DOCKER_DIR} SERVER_NAME=${SERVER_NAME} \
+  docker compose -p ${PROJECT_NAME} -f ${COMPOSE_BASE} -f ${COMPOSE_OVERRIDE} up --pull always -d --wait
 
 printf "Fix permissions\n"
-APP=${APP} FRANKENPHP=${FRANKENPHP} SERVER_NAME=${SERVER_NAME} docker compose -p ${PROJECT_NAME} -f ${BASE} -f ${OVERRIDE} run --rm php chown -R ${USER_ID}:${GROUP_ID} .
+APP_DIR=${APP_DIR} DOCKER_DIR=${DOCKER_DIR} SERVER_NAME=${SERVER_NAME} \
+  docker compose -p ${PROJECT_NAME} -f ${COMPOSE_BASE} -f ${COMPOSE_OVERRIDE} run --rm php chown -R ${USER_ID}:${GROUP_ID} .
 
 printf ">\n"
 printf "> Go on https://${SERVER_NAME}/\n"
