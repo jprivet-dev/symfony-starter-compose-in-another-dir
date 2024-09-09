@@ -2,7 +2,7 @@
 
 ## Presentation
 
-Generate a fresh dockerized Symfony project, with docker compose in another directory.
+Generate a fresh Symfony application, with the Docker configuration in a parallel directory.
 
 > This project [use a fork](git@github.com:jprivet-dev/symfony-docker) and a modified version of [Symfony Docker](https://github.com/dunglas/symfony-docker), which can be used in another folder.
 
@@ -15,16 +15,30 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
 * `git clone git@github.com:jprivet-dev/symfony-starter.git`
 * `cd symfony-starter`
 * `make init` or `. scripts/init.sh`:
-  * That clone `git@github.com:jprivet-dev/symfony-docker` in `docker` directory
+  * That clone `git@github.com:jprivet-dev/symfony-docker` in `/docker`
   * Build fresh images
-  * Set up and start a fresh Symfony project in `app` directory
+  * Generate a fresh Symfony application in `/app`
   * Fix permissions
 * Go on https://symfony-starter.localhost
 * See all shorcuts for the most common tasks with `$ make`
 * You can then stop or restart the project:
-  * `$ make stop` 
-  * `$ make start` 
+  * `make stop` 
+  * `make start` 
 
+## Save `/app`
+
+To save the generated Symfony application:
+
+* Remove `/app` from [.gitignore](.gitignore)
+* `git add . && git commit -m "Fresh Symfony application"`
+
+## Save `/docker`
+
+To save the Docker configuration:
+
+* Remove `/docker` from [.gitignore](.gitignore)
+* `rm -Rf docker/.git`
+* `git add . && git commit -m "Fresh Docker configuration"`
 
 ## Resources
 
