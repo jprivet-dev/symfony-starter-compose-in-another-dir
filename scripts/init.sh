@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Usage:
-# $ . scripts/install.sh [branch]
+# $ . scripts/init.sh [branch]
 
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
