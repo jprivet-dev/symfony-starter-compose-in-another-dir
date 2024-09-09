@@ -14,17 +14,23 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
  
 * `git clone git@github.com:jprivet-dev/symfony-starter.git`
 * `cd symfony-starter`
-* `. install.sh`:
+* `make init` or `. scripts/init.sh`:
   * That clone `git@github.com:jprivet-dev/symfony-docker` in `docker` directory
   * Build fresh images
   * Set up and start a fresh Symfony project in `app` directory
   * Fix permissions
 * Go on https://symfony-starter.localhost
+* See all shorcuts for the most common tasks with `$ make`
+* You can then stop or restart the project:
+  * `$ make stop` 
+  * `$ make start` 
+
 
 ## Resources
 
 - https://symfony.com/doc/current/setup/docker.html
 - https://github.com/dunglas/symfony-docker
+- https://github.com/jprivet-dev/symfony-docker
 - https://medium.com/@unhandlederror/how-to-run-docker-compose-from-another-directory-e94e081a80cc
 
 ## Comments, suggestions?
