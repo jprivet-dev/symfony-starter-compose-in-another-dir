@@ -77,7 +77,7 @@ help: ## Print self-documented Makefile
 ## — PROJECT 🚀 ———————————————————————————————————————————————————————————————
 
 .PHONY: init
-init: confirm_continue clone build up_d permissions info ## Generate a fresh dockerized Symfony project, with docker compose in another directory [y/N]
+init: confirm_continue clone build up_d permissions info ## Generate a fresh Symfony application, with the Docker configuration in a parallel directory [y/N]
 
 .PHONY: start
 start: up_d info ## Start the project (implies detached mode)
