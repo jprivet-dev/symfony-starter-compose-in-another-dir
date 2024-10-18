@@ -172,7 +172,12 @@ composer_update@prod: ## Update packages using composer (PROD)
 
 PHONY: clone
 clone: ## Clone Symfony Docker (forked version)
+ifeq ($(wildcard $(DOCKER_DIR)),)
+	@printf "Clone Symfony Docker (next branch)\n"
 	git clone $(DOCKER_REP) $(DOCKER_DIR) -b next
+else
+	@printf "Symfony Docker already cloned\n"
+endif
 
 ## — DOCKER 🐳 ————————————————————————————————————————————————————————————————
 
