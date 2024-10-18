@@ -14,29 +14,35 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
  
 * `git clone git@github.com:jprivet-dev/symfony-starter.git`
 * `cd symfony-starter`
-* `make init` or `. scripts/init.sh`:
-  * That clone `git@github.com:jprivet-dev/symfony-docker` in `/docker`
-  * Build fresh images
-  * Generate a fresh Symfony application in `/app`
-  * Fix permissions
-* Go on https://symfony-starter.localhost
-* See all shorcuts for the most common tasks with `$ make`
+* `make init`:
+  * That clone `git@github.com:jprivet-dev/symfony-docker` in `/docker`.
+  * Build fresh images.
+  * Generate a fresh Symfony application in `/app`.
+  * Fix permissions.
+* Go on https://symfony-starter.localhost.
 * You can then stop or restart the project:
   * `make stop` 
   * `make start` 
+
+## Tips
+
+* See all shorcuts for the most common tasks with `$ make`.
+* If you don't have access to `make`, use [scripts/init.sh](scripts/init.sh) instead of `make init`:
+    * `. scripts/init.sh`
+    * `. scripts/init.sh origin/next`
 
 ## Save `/app`
 
 To save the generated Symfony application:
 
-* Remove `/app` from [.gitignore](.gitignore)
+* Remove `/app` from [.gitignore](.gitignore).
 * `git add . && git commit -m "Fresh Symfony application"`
 
 ## Save `/docker`
 
 To save the Docker configuration:
 
-* Remove `/docker` from [.gitignore](.gitignore)
+* Remove `/docker` from [.gitignore](.gitignore).
 * `rm -Rf docker/.git`
 * `git add . && git commit -m "Fresh Docker configuration"`
 
