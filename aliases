@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Shortcut to the scripts/aliases.sh file.
+# Usage: $ . aliases
+source scripts/aliases.sh
