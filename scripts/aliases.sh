@@ -47,15 +47,15 @@ function aliases_help() {
 }
 
 function aliases_delete_all() {
-  aliases_delete php
-  aliases_delete composer
   aliases_delete symfony
+  aliases_delete composer
+  aliases_delete php
 }
 
 function aliases_create_all() {
-  aliases_create php
-  aliases_create composer
   aliases_create symfony
+  aliases_create composer
+  aliases_create php
   printf "\n"
   printf "Delete all aliases with ${G}. aliases --delete${R} command\n"
   printf "Show help with ${G}. aliases --help${R} command\n"
