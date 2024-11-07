@@ -12,39 +12,71 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
 
 ## Installation
  
-* `git clone git@github.com:jprivet-dev/symfony-starter.git`
-* `cd symfony-starter`
-* `make init`:
-  * That clone `git@github.com:jprivet-dev/symfony-docker` in `/docker`.
-  * Build fresh images.
-  * Generate a fresh Symfony application in `/app`.
-  * Fix permissions.
-* Go on https://symfony-starter.localhost.
-* You can then stop or restart the project:
-  * `make stop` 
-  * `make start` 
+- `git clone git@github.com:jprivet-dev/symfony-starter.git`
+- `cd symfony-starter`
+- `make init`:
+  - That clone `git@github.com:jprivet-dev/symfony-docker` in `docker/`.
+  - Build fresh images.
+  - Generate a fresh Symfony application in `app/`.
+  - Fix permissions.
+- Go on https://symfony-starter.localhost.
 
-## Tips
+# Start/Stop the project
 
-* See all shorcuts for the most common tasks with `$ make`.
-* If you don't have access to `make`, use [scripts/init.sh](scripts/init.sh) instead of `make init`:
-    * `. scripts/init.sh`
-    * `. scripts/init.sh origin/next`
+- `make start`
+- `make stop`
+- `make restart`
 
-## Save `/app`
+> See all shorcuts for the most common tasks with `make`.
+
+## Structure
+
+### Before `make init`
+
+```
+./
+├── scripts/
+├── aliases
+├── LICENSE
+├── Makefile
+└── README.md
+```
+
+### After `make init`
+
+```
+./
+├── app/       <-- Fresh Symfony application
+├── docker/    <-- Fresh Docker configuration (in a parallel directory to app/)
+├── scripts/
+├── aliases
+├── LICENSE
+├── Makefile
+└── README.md
+```
+
+## Save all after installation
+
+### `app/`
 
 To save the generated Symfony application:
 
-* Remove `/app` from [.gitignore](.gitignore).
-* `git add . && git commit -m "Fresh Symfony application"`
+- Remove `app/` from [.gitignore](.gitignore).
+- `git add . && git commit -m "Fresh Symfony application"`
 
-## Save `/docker`
+### `docker/`
 
 To save the Docker configuration:
 
-* Remove `/docker` from [.gitignore](.gitignore).
-* `rm -Rf docker/.git`
-* `git add . && git commit -m "Fresh Docker configuration"`
+- Remove `docker/` from [.gitignore](.gitignore).
+- `rm -Rf docker/.git`
+- `git add . && git commit -m "Fresh Docker configuration"`
+
+## Tips
+
+- If you don't have access to `make`, use [scripts/init.sh](scripts/init.sh) instead of `make init`:
+  - `. scripts/init.sh`
+  - `. scripts/init.sh origin/next`
 
 ## Resources
 
