@@ -3,17 +3,17 @@
 
 Y="\033[33m" # YELLOW
 G="\033[32m" # GREEN
-R="\033[0m"  # RESET
+S="\033[0m"  # RESET
 
-function aliases_create() {
+function alias_create() {
   local name="${1}"
-  printf "✅ Create ${G}${name}${R} alias for the ${G}make ${name}${R} command\n"
+  printf "✅ Create ${G}${name}${S} alias for ${G}make ${name}${S}\n"
   alias ${name}="aliases_make ${name}"
 }
 
-function aliases_delete() {
+function alias_delete() {
   local name="${1}"
-  printf "❌ Delete ${G}${name}${R} alias for the ${G}make ${name}${R} command\n"
+  printf "❌ Delete ${G}${name}${S} alias for ${G}make ${name}${S}\n"
   unalias ${name}
 }
 
@@ -25,40 +25,42 @@ function aliases_make() {
 
 function aliases_help() {
   printf "\n"
-  printf "${Y}Description:${R}\n"
+  printf "${Y}Description:${S}\n"
   printf "  Create or delete aliases for make commands\n"
   printf "\n"
-  printf "${Y}Usage:${R}\n"
+  printf "${Y}Usage:${S}\n"
   printf "  . aliases [options]\n"
   printf "\n"
-  printf "${Y}Options:${R}\n"
-  printf "  ${G}--help, -h    ${R}Show help\n"
-  printf "  ${G}--delete, -d  ${R}Delete all aliases\n"
+  printf "${Y}Options:${S}\n"
+  printf "  ${G}--help, -h    ${S}Show help\n"
+  printf "  ${G}--delete, -d  ${S}Delete all aliases\n"
   printf "\n"
-  printf "${Y}Help:${R}\n"
+  printf "${Y}Help:${S}\n"
   printf "  Create all aliases:\n"
   printf "\n"
-  printf "    ${G}. aliases${R}\n"
+  printf "    ${G}. aliases${S}\n"
   printf "\n"
   printf "  Delete all aliases:\n"
   printf "\n"
-  printf "    ${G}. aliases --delete${R}\n"
+  printf "    ${G}. aliases --delete${S}\n"
   printf "\n"
-}
-
-function aliases_delete_all() {
-  aliases_delete symfony
-  aliases_delete composer
-  aliases_delete php
 }
 
 function aliases_create_all() {
-  aliases_create symfony
-  aliases_create composer
-  aliases_create php
+  alias_create symfony
+  alias_create sf
+  alias_create composer
+  alias_create php
   printf "\n"
-  printf "Delete all aliases with ${G}. aliases --delete${R} command\n"
-  printf "Show help with ${G}. aliases --help${R} command\n"
+  printf "Delete all aliases with ${G}. aliases --delete${S} command\n"
+  printf "Show help with ${G}. aliases --help${S} command\n"
+}
+
+function aliases_delete_all() {
+  alias_delete symfony
+  alias_delete sf
+  alias_delete composer
+  alias_delete php
 }
 
 case ${1} in
