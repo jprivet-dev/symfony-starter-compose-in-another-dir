@@ -2,12 +2,11 @@
 # COLORS
 #
 
-RESET     = "\\033[0m"
-BLUE      = "\\033[34m"
-GREEN     = "\\033[32m"
-RED       = "\\033[31m"
-YELLOW    = "\\033[33m"
-UNDERLINE = "\\033[4m"
+# (G)REEN, (R)ED, (Y)ELLOW & RE(S)ET
+G = "\\033[32m"
+R = "\\033[31m"
+Y = "\\033[33m"
+S = "\\033[0m"
 
 #
 # EXECUTABLES (LOCAL)
@@ -41,8 +40,6 @@ CONTAINER_PHP = $(COMPOSE) exec php
 PHP           = $(CONTAINER_PHP) php
 COMPOSER      = $(CONTAINER_PHP) composer
 CONSOLE       = $(PHP) bin/console
-
-ALIASES_SOURCE = scripts/_aliases.source.sh
 
 ## — 🐳 🎵 THE SYMFONY STARTER MAKEFILE 🎵 🐳 —————————————————————————————————
 
@@ -86,9 +83,13 @@ start: up_d info ## Start the project (implies detached mode)
 .PHONY: stop
 stop: down ## Stop the project
 
+.PHONY: restart
+restart: stop start ## Restart the project
+
 PHONY: info
-info: ## Show info
-	@echo "Go on: $(GREEN)https://$(SERVER_NAME)/$(RESET)"
+info i: ## Show info
+	@printf "> Go on: $(G)https://$(SERVER_NAME)/$(S)\n"
+	@printf "> Load all aliases with $(Y)$$ . aliases$(S)\n"
 
 ## — SYMFONY 🎵 ———————————————————————————————————————————————————————————————
 
@@ -224,5 +225,5 @@ PHONY: confirm_continue
 confirm_continue: ## Display a confirmation before continuing [y/N]
 	@$(eval yes_by_default ?=) # Default ‘yes’ answer
 	@if [ "$${yes_by_default}" = "true" ]; then exit 0; fi; \
-	printf "$(GREEN)Do you want to continue?$(RESET) [$(YELLOW)y/N$(RESET)]: " && read answer && [ $${answer:-N} = y ]
+	printf "$(G)Do you want to continue?$(S) [$(Y)y/N$(S)]: " && read answer && [ $${answer:-N} = y ]
 
