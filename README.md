@@ -4,6 +4,8 @@
 
 Generate a fresh Symfony application, with the Docker configuration in a parallel directory.
 
+The aim is to be able to generate a project that **clearly separates responsibilities**, between what concerns the Symfony application and what concerns its dockerization.
+
 > This project [use a fork](git@github.com:jprivet-dev/symfony-docker) and a modified version of [Symfony Docker](https://github.com/dunglas/symfony-docker), which can be used in another directory.
 
 ## Prerequisites
@@ -21,13 +23,28 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
   - Fix permissions.
 - Go on https://symfony-starter.localhost.
 
+## Clean all and generate again
+
+```shell
+# 1. Stop the container
+make stop
+
+# 2. Remove app/ and docker/ directories
+make clean
+
+# 3. Generate again
+make generate
+```
+
 # Start and stop the project (Docker)
 
-> See all shorcuts for the most common tasks with `make`.
+```shell
+make start
+make stop
+make restart
+```
 
-- `make start`
-- `make stop`
-- `make restart`
+> Run `make` to see all shorcuts for the most common tasks.
 
 ## Structure
 
