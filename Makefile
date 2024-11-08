@@ -110,6 +110,8 @@ clean_docker: confirm_continue ## Remove docker directory [y/N]
 
 PHONY: info
 info i: $(call title Info) ## Show info
+	@printf "\n$(Y)Info$(S)"
+	@printf "\n$(Y)----$(S)\n\n"
 	@printf "Go on $(G)https://$(SERVER_NAME)/$(S)\n"
 	@printf "Run $(Y)make$(S) to see all shorcuts for the most common tasks.\n"
 	@printf "Run $(Y). aliases$(S) to load all the project aliases.\n"
