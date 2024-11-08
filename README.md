@@ -21,7 +21,7 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
   - Build fresh images.
   - Generate a fresh Symfony application in `app/`.
   - Fix permissions.
-- Go on https://symfony-starter.localhost.
+- Go on https://symfony-starter.localhost/.
 
 ## Clean all and generate again
 
@@ -86,7 +86,7 @@ To save the generated Symfony application:
 To save the Docker configuration:
 
 - Remove `docker/` from [.gitignore](.gitignore).
-- `rm -Rf docker/.git`
+- `rm -rf docker/.git`
 - `git add . && git commit -m "Fresh Docker configuration"`
 
 ## Troubleshooting
