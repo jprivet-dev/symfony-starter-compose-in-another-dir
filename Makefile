@@ -82,8 +82,7 @@ help: ## Print self-documented Makefile
 ## — PROJECT 🚀 ———————————————————————————————————————————————————————————————
 
 .PHONY: generate
-generate: ## Generate a fresh Symfony application, with the Docker configuration in a parallel directory
-	@$(MAKE) -s confirm question="Do you want to generate a fresh Symfony application, with the Docker configuration ?" make_yes="clone build permissions start"
+generate: confirm_continue clone build up_d permissions info ## Generate a fresh Symfony application, with the Docker configuration in a parallel directory
 
 .PHONY: start
 start: up_d info ## Start the project (implies detached mode)
@@ -96,26 +95,25 @@ restart: stop start ## Restart the project
 
 ##
 
-.PHONY: clean_all
-clean_all: ## Remove app & docker directories [y/N]
-	@$(MAKE) -s confirm question="Do you want to remove app & docker directories ?" make_yes="clean_app clean_docker"
+.PHONY: clean
+clean: confirm_continue clean_app clean_docker ## Remove app & docker directories [y/N]
 
 .PHONY: clean_app
-clean_app: confirm_continue stop ## Remove app directory [y/N]
-	-rm -rf app
-	@printf "> $(Y)app/$(S) removed\n"
+clean_app: confirm_continue ## Remove app directory [y/N]
+	rm -rf app
 
 .PHONY: clean_docker
-clean_docker: confirm_continue stop ## Remove docker directory [y/N]
-	-rm -rf docker
-	@printf "> $(Y)docker/$(S) removed\n"
+clean_docker: confirm_continue ## Remove docker directory [y/N]
+	rm -rf docker
 
 ##
 
 PHONY: info
-info i: ## Show info
-	@printf "> Go on: $(G)https://$(SERVER_NAME)/$(S)\n"
-	@printf "> Load all aliases with $(Y)$$ . aliases$(S)\n"
+info i: $(call title Info) ## Show info
+	@printf "Go on $(G)https://$(SERVER_NAME)/$(S)\n"
+	@printf "Run $(Y)make$(S) to see all shorcuts for the most common tasks.\n"
+	@printf "Run $(Y). aliases$(S) to load all the project aliases.\n"
+	@printf "\n"
 
 ## — SYMFONY 🎵 ———————————————————————————————————————————————————————————————
 
@@ -200,11 +198,14 @@ composer_update@prod: ## Update packages using composer (PROD)
 
 PHONY: clone
 clone: ## Clone Symfony Docker (forked version)
+	@printf "\n$(Y)Clone Symfony Docker$(S)"
+	@printf "\n$(Y)--------------------$(S)\n\n"
 ifeq ($(wildcard $(DOCKER_DIR)),)
-	@printf "Clone Symfony Docker - Branch: $(DOCKER_BRANCH)\n"
+	@printf "[branch: $(Y)$(DOCKER_BRANCH)$(S)]\n"
 	git clone $(DOCKER_REP) $(DOCKER_DIR) -b $(DOCKER_BRANCH)
+	@printf " $(G)✔$(S) Symfony Docker cloned.\n\n"
 else
-	@printf "Symfony Docker already cloned\n"
+	@printf " $(G)✔$(S) Symfony Docker already cloned.\n\n"
 endif
 
 ## — DOCKER 🐳 ————————————————————————————————————————————————————————————————
@@ -243,7 +244,10 @@ docker_remove_all: confirm_continue ## Remove all stopped containers [y/N]
 
 .PHONY: permissions
 permissions: ## Run it if you cannot edit some of the project files on Linux (https://github.com/dunglas/symfony-docker/blob/main/docs/troubleshooting.md)
+	@printf "\n$(Y)Permissions$(S)"
+	@printf "\n$(Y)-----------$(S)\n\n"
 	$(COMPOSE) run --rm php chown -R $(USER_ID):$(GROUP_ID) .
+	@printf " $(G)✔$(S) You are now defined as the owner $(Y)$(USER_ID):$(GROUP_ID)$(S) of the project files.\n\n"
 
 ## — INTERNAL 🚧‍️ ——————————————————————————————————————————————————————————————
 
