@@ -4,7 +4,7 @@
 
 Generate a fresh Symfony application, with the Docker configuration in a parallel directory.
 
-> This project [use a fork](git@github.com:jprivet-dev/symfony-docker) and a modified version of [Symfony Docker](https://github.com/dunglas/symfony-docker), which can be used in another folder.
+> This project [use a fork](git@github.com:jprivet-dev/symfony-docker) and a modified version of [Symfony Docker](https://github.com/dunglas/symfony-docker), which can be used in another directory.
 
 ## Prerequisites
 
@@ -21,15 +21,13 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
   - Fix permissions.
 - Go on https://symfony-starter.localhost.
 
-> 
+# Start and stop the project (Docker)
 
-# Start/Stop the project (Docker)
+> See all shorcuts for the most common tasks with `make`.
 
 - `make start`
 - `make stop`
 - `make restart`
-
-> See all shorcuts for the most common tasks with `make`.
 
 ## Structure
 
@@ -73,12 +71,6 @@ To save the Docker configuration:
 - Remove `docker/` from [.gitignore](.gitignore).
 - `rm -Rf docker/.git`
 - `git add . && git commit -m "Fresh Docker configuration"`
-
-## Tips
-
-- If you don't have access to `make`, use [scripts/generate.sh](scripts/generate.sh) instead of `make generate`:
-  - `. scripts/generate.sh`
-  - `. scripts/generate.sh origin/next`
 
 ## Troubleshooting
 

@@ -9,6 +9,12 @@ Y = "\\033[33m"
 S = "\\033[0m"
 
 #
+# ENVIRONMENT VARIABLES
+#
+
+-include .env
+
+#
 # EXECUTABLES (LOCAL)
 #
 
@@ -21,14 +27,14 @@ ifndef COMPOSE_V2
 $(error Docker Compose CLI plugin is required but is not available on your system)
 endif
 
-APP_DIR       = app
-APP_PATH      = $(PWD)/$(APP_DIR)
-DOCKER_BRANCH = next
-DOCKER_DIR    = docker
-DOCKER_PATH   = $(PWD)/$(DOCKER_DIR)
-DOCKER_REP    = git@github.com:jprivet-dev/symfony-docker.git
-PROJECT_NAME  = $(shell basename $(CURDIR))
-SERVER_NAME   = $(PROJECT_NAME).localhost
+APP_DIR        = app
+APP_PATH       = $(PWD)/$(APP_DIR)
+DOCKER_BRANCH ?= main
+DOCKER_DIR     = docker
+DOCKER_PATH    = $(PWD)/$(DOCKER_DIR)
+DOCKER_REP     = git@github.com:jprivet-dev/symfony-docker.git
+PROJECT_NAME   = $(shell basename $(CURDIR))
+SERVER_NAME    = $(PROJECT_NAME).localhost
 
 COMPOSE_BASE     = $(DOCKER_DIR)/compose.yaml
 COMPOSE_OVERRIDE = $(DOCKER_DIR)/compose.override.yaml
@@ -91,7 +97,7 @@ restart: stop start ## Restart the project
 ##
 
 .PHONY: clean_all
-clean_all: ## Remove app & docker directories
+clean_all: ## Remove app & docker directories [y/N]
 	@$(MAKE) -s confirm question="Do you want to remove app & docker directories ?" make_yes="clean_app clean_docker"
 
 .PHONY: clean_app
@@ -195,7 +201,7 @@ composer_update@prod: ## Update packages using composer (PROD)
 PHONY: clone
 clone: ## Clone Symfony Docker (forked version)
 ifeq ($(wildcard $(DOCKER_DIR)),)
-	@printf "Clone Symfony Docker (next branch)\n"
+	@printf "Clone Symfony Docker - Branch: $(DOCKER_BRANCH)\n"
 	git clone $(DOCKER_REP) $(DOCKER_DIR) -b $(DOCKER_BRANCH)
 else
 	@printf "Symfony Docker already cloned\n"
