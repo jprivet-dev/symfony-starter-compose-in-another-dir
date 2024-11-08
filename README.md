@@ -14,14 +14,16 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
  
 - `git clone git@github.com:jprivet-dev/symfony-starter.git`
 - `cd symfony-starter`
-- `make init`:
+- `make generate`:
   - That clone `git@github.com:jprivet-dev/symfony-docker` in `docker/`.
   - Build fresh images.
   - Generate a fresh Symfony application in `app/`.
   - Fix permissions.
 - Go on https://symfony-starter.localhost.
 
-# Start/Stop the project
+> 
+
+# Start/Stop the project (Docker)
 
 - `make start`
 - `make stop`
@@ -31,7 +33,7 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
 
 ## Structure
 
-### Before `make init`
+### Before `make generate`
 
 ```
 ./
@@ -42,7 +44,7 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
 └── README.md
 ```
 
-### After `make init`
+### After `make generate`
 
 ```
 ./
@@ -74,14 +76,47 @@ To save the Docker configuration:
 
 ## Tips
 
-- If you don't have access to `make`, use [scripts/init.sh](scripts/init.sh) instead of `make init`:
-  - `. scripts/init.sh`
-  - `. scripts/init.sh origin/next`
+- If you don't have access to `make`, use [scripts/generate.sh](scripts/generate.sh) instead of `make generate`:
+  - `. scripts/generate.sh`
+  - `. scripts/generate.sh origin/next`
+
+## Troubleshooting
+
+### Error listen tcp4 0.0.0.0:80: bind: address already in use
+
+If you have the following error:
+
+> Error response from daemon: driver failed programming external connectivity on endpoint symfony-starter-php-1 (...): Error starting userland proxy: listen tcp4 0.0.0.0:80: bind: address already in use
+
+See the network statistics:
+
+```shell
+sudo netstat -pna | grep :80
+```
+
+```
+tcp6       0      0 :::80        :::*        LISTEN        4321/apache2
+...
+...
+```
+
+For example, in that previous case `.../apache2`, stop Apache server:
+
+```shell
+sudo service apache2 stop
+````
+
+## Editing permissions on Linux
+
+If you work on linux and cannot edit some of the project files right after the first installation, you can run in that project `make permissions`, to set yourself as owner of the project files that were created by the docker container.
+
+> See https://github.com/dunglas/symfony-docker/blob/main/docs/troubleshooting.md
 
 ## Resources
 
 - https://symfony.com/doc/current/setup/docker.html
 - https://github.com/dunglas/symfony-docker
+- https://github.com/dunglas/symfony-docker/blob/main/docs/troubleshooting.md
 - https://github.com/jprivet-dev/symfony-docker
 - https://medium.com/@unhandlederror/how-to-run-docker-compose-from-another-directory-e94e081a80cc
 
