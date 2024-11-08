@@ -1,4 +1,4 @@
-# Usage: $ . scripts/init.sh [branch]
+# Usage: $ . scripts/generate.sh [branch]
 
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
