@@ -21,13 +21,14 @@ ifndef COMPOSE_V2
 $(error Docker Compose CLI plugin is required but is not available on your system)
 endif
 
-APP_DIR      = app
-APP_PATH     = $(PWD)/$(APP_DIR)
-DOCKER_DIR   = docker
-DOCKER_PATH  = $(PWD)/$(DOCKER_DIR)
-DOCKER_REP   = git@github.com:jprivet-dev/symfony-docker.git
-PROJECT_NAME = $(shell basename $(CURDIR))
-SERVER_NAME  = $(PROJECT_NAME).localhost
+APP_DIR       = app
+APP_PATH      = $(PWD)/$(APP_DIR)
+DOCKER_BRANCH = next
+DOCKER_DIR    = docker
+DOCKER_PATH   = $(PWD)/$(DOCKER_DIR)
+DOCKER_REP    = git@github.com:jprivet-dev/symfony-docker.git
+PROJECT_NAME  = $(shell basename $(CURDIR))
+SERVER_NAME   = $(PROJECT_NAME).localhost
 
 COMPOSE_BASE     = $(DOCKER_DIR)/compose.yaml
 COMPOSE_OVERRIDE = $(DOCKER_DIR)/compose.override.yaml
@@ -74,8 +75,9 @@ help: ## Print self-documented Makefile
 
 ## — PROJECT 🚀 ———————————————————————————————————————————————————————————————
 
-.PHONY: init
-init: confirm_continue clone build up_d permissions info ## Generate a fresh Symfony application, with the Docker configuration in a parallel directory [y/N]
+.PHONY: generate
+generate: ## Generate a fresh Symfony application, with the Docker configuration in a parallel directory
+	@$(MAKE) -s confirm question="Do you want to generate a fresh Symfony application, with the Docker configuration ?" make_yes="clone build permissions start"
 
 .PHONY: start
 start: up_d info ## Start the project (implies detached mode)
@@ -85,6 +87,24 @@ stop: down ## Stop the project
 
 .PHONY: restart
 restart: stop start ## Restart the project
+
+##
+
+.PHONY: clean_all
+clean_all: ## Remove app & docker directories
+	@$(MAKE) -s confirm question="Do you want to remove app & docker directories ?" make_yes="clean_app clean_docker"
+
+.PHONY: clean_app
+clean_app: confirm_continue stop ## Remove app directory [y/N]
+	-rm -rf app
+	@printf "> $(Y)app/$(S) removed\n"
+
+.PHONY: clean_docker
+clean_docker: confirm_continue stop ## Remove docker directory [y/N]
+	-rm -rf docker
+	@printf "> $(Y)docker/$(S) removed\n"
+
+##
 
 PHONY: info
 info i: ## Show info
@@ -176,7 +196,7 @@ PHONY: clone
 clone: ## Clone Symfony Docker (forked version)
 ifeq ($(wildcard $(DOCKER_DIR)),)
 	@printf "Clone Symfony Docker (next branch)\n"
-	git clone $(DOCKER_REP) $(DOCKER_DIR) -b next
+	git clone $(DOCKER_REP) $(DOCKER_DIR) -b $(DOCKER_BRANCH)
 else
 	@printf "Symfony Docker already cloned\n"
 endif
@@ -197,7 +217,7 @@ down: ## Stop the container
 
 .PHONY: build
 build: ## Build or rebuild services
-	$(COMPOSE) build --no-cache
+	$(COMPOSE) build
 
 .PHONY: logs
 logs: ## See the container’s logs
@@ -221,9 +241,26 @@ permissions: ## Run it if you cannot edit some of the project files on Linux (ht
 
 ## — INTERNAL 🚧‍️ ——————————————————————————————————————————————————————————————
 
+.PHONY: confirm
+confirm: ## Display a confirmation before executing a makefile command - @$(MAKE) -s confirm question=<question> [make_yes=<command>] [make_no=<command>] [yes_by_default=<bool>]
+	@$(if $(question),, $(error question argument is required))   # Question to display
+	@$(eval make_yes ?=)                                          # Makefile commands to execute on yes
+	@$(eval make_no ?=)                                           # Makefile commands to execute on no
+	@$(eval yes_by_default ?=)                                    # Default ‘yes’ answer
+	@\
+	question=$${question:-"Confirm?"}; \
+	if [ "$${yes_by_default}" != "true" ]; then \
+		printf "$(G)$${question}$(S) [$(Y)y/N$(S)]: " && read answer; \
+	fi; \
+	answer=$${answer:-N}; \
+	if [ "$${answer}" = y ] || [ "$${answer}" = Y ] || [ "$${yes_by_default}" = "true" ]; then \
+		[ -z "$$make_yes" ] && printf "$(Y)(YES) no action!$(S)\n" || $(MAKE) -s $$make_yes yes_by_default=true; \
+	else \
+		[ -z "$$make_no" ] && printf "$(Y)(NO) no action!$(S)\n" || $(MAKE) -s $$make_no; \
+	fi
+
 PHONY: confirm_continue
 confirm_continue: ## Display a confirmation before continuing [y/N]
 	@$(eval yes_by_default ?=) # Default ‘yes’ answer
 	@if [ "$${yes_by_default}" = "true" ]; then exit 0; fi; \
 	printf "$(G)Do you want to continue?$(S) [$(Y)y/N$(S)]: " && read answer && [ $${answer:-N} = y ]
-
