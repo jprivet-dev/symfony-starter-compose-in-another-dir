@@ -36,7 +36,7 @@ make clean
 make generate
 ```
 
-# Start and stop the project (Docker)
+## Start and stop the project (Docker)
 
 ```shell
 make start
@@ -89,6 +89,27 @@ To save the Docker configuration:
 - `rm -rf docker/.git`
 - `git add . && git commit -m "Fresh Docker configuration"`
 
+## Makefile: variables override
+
+You can choose an another branch of my forked Symfony Docker repository, or customize the docker build process. To do this, create an `.env` file and override the following variables :
+
+```dotenv
+# .env
+BRANCH=next
+DOCKER_BUILD_OPTS=SYMFONY_VERSION=6.4.*
+SERVER_NAME=custom-server-name.localhost
+```
+
+These variables will be taken into account by the `make` commands.
+
+> See https://github.com/dunglas/symfony-docker/blob/main/docs/options.md#docker-build-options
+
+## Shortcomings of this approach
+
+Putting Docker in another folder, outside the application, prevents the use of [Flex Recipes & Docker Configuration](https://symfony.com/doc/current/setup/docker.html#flex-recipes-docker-configuration).
+
+⏱️ Search for a solution underway...
+
 ## Troubleshooting
 
 ### Error listen tcp4 0.0.0.0:80: bind: address already in use
@@ -115,7 +136,9 @@ For example, in that previous case `.../apache2`, stop Apache server:
 sudo service apache2 stop
 ````
 
-## Editing permissions on Linux
+Or use a [custom HTTP port](https://github.com/dunglas/symfony-docker/blob/main/docs/options.md#using-custom-http-ports).
+
+### Editing permissions on Linux
 
 If you work on linux and cannot edit some of the project files right after the first installation, you can run in that project `make permissions`, to set yourself as owner of the project files that were created by the docker container.
 
@@ -126,6 +149,7 @@ If you work on linux and cannot edit some of the project files right after the f
 - https://symfony.com/doc/current/setup/docker.html
 - https://github.com/dunglas/symfony-docker
 - https://github.com/dunglas/symfony-docker/blob/main/docs/troubleshooting.md
+- https://github.com/dunglas/symfony-docker/blob/main/docs/options.md#docker-build-options
 - https://github.com/jprivet-dev/symfony-docker
 - https://medium.com/@unhandlederror/how-to-run-docker-compose-from-another-directory-e94e081a80cc
 
