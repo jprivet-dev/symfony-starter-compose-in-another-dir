@@ -27,19 +27,20 @@ ifndef COMPOSE_V2
 $(error Docker Compose CLI plugin is required but is not available on your system)
 endif
 
-APP_DIR        = app
-APP_PATH       = $(PWD)/$(APP_DIR)
-DOCKER_BRANCH ?= main
-DOCKER_DIR     = docker
-DOCKER_PATH    = $(PWD)/$(DOCKER_DIR)
-DOCKER_REP     = git@github.com:jprivet-dev/symfony-docker.git
-PROJECT_NAME   = $(shell basename $(CURDIR))
-SERVER_NAME    = $(PROJECT_NAME).localhost
+APP_DIR            = app
+APP_PATH           = $(PWD)/$(APP_DIR)
+REPOSITORY         = git@github.com:jprivet-dev/symfony-docker.git
+BRANCH            ?= main
+DOCKER_DIR         = docker
+DOCKER_PATH        = $(PWD)/$(DOCKER_DIR)
+DOCKER_BUILD_OPTS ?=
+PROJECT_NAME       = $(shell basename $(CURDIR))
+SERVER_NAME       ?= $(PROJECT_NAME).localhost
 
 COMPOSE_BASE     = $(DOCKER_DIR)/compose.yaml
 COMPOSE_OVERRIDE = $(DOCKER_DIR)/compose.override.yaml
 COMPOSE          =\
-	APP_PATH=$(APP_PATH) DOCKER_PATH=$(DOCKER_PATH) SERVER_NAME=$(SERVER_NAME) \
+	APP_PATH=$(APP_PATH) DOCKER_PATH=$(DOCKER_PATH) SERVER_NAME=$(SERVER_NAME) $(DOCKER_BUILD_OPTS)\
 	docker compose \
 	-p $(PROJECT_NAME) -f $(COMPOSE_BASE) -f $(COMPOSE_OVERRIDE)
 
@@ -203,9 +204,9 @@ clone: ## Clone Symfony Docker (forked version)
 	@printf "\n$(Y)Clone Symfony Docker$(S)"
 	@printf "\n$(Y)--------------------$(S)\n\n"
 ifeq ($(wildcard $(DOCKER_DIR)),)
-	@printf "Repository: $(Y)$(DOCKER_REP)$(S)\n"
-	@printf "Branch    : $(Y)$(DOCKER_BRANCH)$(S)\n"
-	git clone $(DOCKER_REP) $(DOCKER_DIR) -b $(DOCKER_BRANCH)
+	@printf "Repository: $(Y)$(REPOSITORY)$(S)\n"
+	@printf "Branch    : $(Y)$(BRANCH)$(S)\n"
+	git clone $(REPOSITORY) $(DOCKER_DIR) -b $(BRANCH)
 	@printf " $(G)✔$(S) Symfony Docker cloned.\n\n"
 else
 	@printf " $(G)✔$(S) Symfony Docker already cloned.\n\n"
