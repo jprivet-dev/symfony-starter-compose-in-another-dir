@@ -1,4 +1,4 @@
-# Symfony starter
+# Symfony starter (Compose in another directory)
 
 ## Presentation
 
@@ -14,14 +14,14 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
 
 ## Installation
  
-- `git clone git@github.com:jprivet-dev/symfony-starter.git`
-- `cd symfony-starter`
+- `git clone git@github.com:jprivet-dev/symfony-starter-compose-in-another-dir.git`
+- `cd symfony-starter-compose-in-another-dir`
 - `make generate`:
   - That clone `git@github.com:jprivet-dev/symfony-docker` in `docker/`.
   - Build fresh images.
   - Generate a fresh Symfony application in `app/`.
   - Fix permissions.
-- Go on https://symfony-starter.localhost/.
+- Go on https://symfony-starter-compose-in-another-dir.localhost/.
 
 ## Clean all and generate again
 
@@ -116,7 +116,7 @@ Putting Docker in another folder, outside the application, prevents the use of [
 
 If you have the following error:
 
-> Error response from daemon: driver failed programming external connectivity on endpoint symfony-starter-php-1 (...): Error starting userland proxy: listen tcp4 0.0.0.0:80: bind: address already in use
+> Error response from daemon: driver failed programming external connectivity on endpoint symfony-starter-compose-in-another-dir-php-1 (...): Error starting userland proxy: listen tcp4 0.0.0.0:80: bind: address already in use
 
 See the network statistics:
 
@@ -155,8 +155,8 @@ If you work on linux and cannot edit some of the project files right after the f
 
 ## Comments, suggestions?
 
-Feel free to make comments/suggestions to me in the [Git issues section](https://github.com/jprivet-dev/symfony-starter/issues).
+Feel free to make comments/suggestions to me in the [Git issues section](https://github.com/jprivet-dev/symfony-starter-compose-in-another-dir/issues).
 
 ## License
 
-This project is released under the [**MIT License**](https://github.com/jprivet-dev/symfony-starter/blob/main/LICENSE).
+This project is released under the [**MIT License**](https://github.com/jprivet-dev/symfony-starter-compose-in-another-dir/blob/main/LICENSE).
