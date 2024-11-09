@@ -99,7 +99,7 @@ restart: stop start ## Restart the project
 clean: confirm_continue clean_app clean_docker ## Remove app & docker directories [y/N]
 
 .PHONY: clean_app
-clean_app: confirm_continue permissions ## Remove app directory [y/N]
+clean_app: confirm_continue ## Remove app directory [y/N]
 	rm -rf app
 
 .PHONY: clean_docker
