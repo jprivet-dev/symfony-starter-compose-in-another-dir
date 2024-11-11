@@ -6,7 +6,7 @@ Generate a fresh Symfony application, with the Docker configuration in a paralle
 
 The aim is to be able to generate a project that **clearly separates responsibilities**, between what concerns the Symfony application and what concerns its dockerization.
 
-> This project [use a fork](git@github.com:jprivet-dev/symfony-docker) and a modified version of [Symfony Docker](https://github.com/dunglas/symfony-docker), which can be used in another directory.
+> This project [use a fork](https://github.com/jprivet-dev/symfony-docker) and a modified version of [Symfony Docker](https://github.com/dunglas/symfony-docker), which can be used in another directory.
 
 ## Prerequisites
 
