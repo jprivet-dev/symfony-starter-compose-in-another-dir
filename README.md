@@ -6,7 +6,7 @@ Generate a fresh Symfony application, with the Docker configuration in a paralle
 
 The aim is to be able to generate a project that **clearly separates responsibilities**, between what concerns the Symfony application and what concerns its dockerization.
 
-> This project [use a fork](https://github.com/jprivet-dev/symfony-docker) and a modified version of [Symfony Docker](https://github.com/dunglas/symfony-docker), which can be used in another directory.
+> This project is a variant of https://github.com/jprivet-dev/symfony-starter, that [use a fork](https://github.com/jprivet-dev/symfony-docker) and a modified version of [Symfony Docker](https://github.com/dunglas/symfony-docker), which can be used in another directory.
 
 ## Prerequisites
 
@@ -22,6 +22,14 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
   - Generate a fresh Symfony application in `app/`.
   - Fix permissions.
 - Go on https://symfony-starter-compose-in-another-dir.localhost/.
+
+All in one:
+
+```shell
+git clone git@github.com:jprivet-dev/symfony-starter-compose-in-another-dir.git \
+&& cd symfony-starter-compose-in-another-dir \
+&& make generate
+```
 
 ## Clean all and generate again
 
@@ -86,23 +94,29 @@ To save the generated Symfony application:
 To save the Docker configuration:
 
 - Remove `docker/` from [.gitignore](.gitignore).
-- `rm -rf docker/.git`
+- `docker/.git` is already removed on `make generate` command.
 - `git add . && git commit -m "Fresh Docker configuration"`
 
-## Makefile: variables override
+## Makefile: variables overloading
 
-You can choose an another branch of my forked Symfony Docker repository, or customize the docker build process. To do this, create an `.env` file and override the following variables :
+You can choose an another branch of my forked Symfony Docker repository, or customize the docker build process. To do this, create an `.overload` file and override the following variables :
 
 ```dotenv
-# .env
+# See https://github.com/jprivet-dev/symfony-starter-compose-in-another-dir/branches
 BRANCH=next
-DOCKER_BUILD_OPTS=SYMFONY_VERSION=6.4.*
-SERVER_NAME=custom-server-name.localhost
+
+# See https://docs.docker.com/compose/how-tos/project-name/
+PROJECT_NAME=my-project
+
+# See https://github.com/dunglas/symfony-docker/blob/main/docs/options.md#docker-build-options
+COMPOSE_UP_SERVER_NAME=my.localhost
+COMPOSE_UP_ENV_VARS=SYMFONY_VERSION=6.4.*
+
+# See https://docs.docker.com/reference/cli/docker/compose/build/#options
+COMPOSE_BUILD_OPTS=--no-cache
 ```
 
 These variables will be taken into account by the `make` commands.
-
-> See https://github.com/dunglas/symfony-docker/blob/main/docs/options.md#docker-build-options
 
 ## Shortcomings of this approach
 
