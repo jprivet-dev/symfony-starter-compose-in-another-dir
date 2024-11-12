@@ -1,4 +1,4 @@
-# Symfony starter (Compose in another directory)
+# Symfony starter - Compose in another directory
 
 ## Presentation
 
@@ -56,7 +56,7 @@ make restart
 
 ## Structure
 
-### Before `make generate`
+Before `make generate`:
 
 ```
 ./
@@ -67,7 +67,7 @@ make restart
 └── README.md
 ```
 
-### After `make generate`
+After `make generate`:
 
 ```
 ./
@@ -82,26 +82,34 @@ make restart
 
 ## Save all after installation
 
-### `app/`
+### Save the generated Symfony application (`app/`):
 
-To save the generated Symfony application:
+1. Remove `app/` from [.gitignore](.gitignore).
+2. `git add . && git commit -m "Fresh Symfony application"`
 
-- Remove `app/` from [.gitignore](.gitignore).
-- `git add . && git commit -m "Fresh Symfony application"`
+### Save the Docker configuration (`docker/`)
 
-### `docker/`
-
-To save the Docker configuration:
-
-- Remove `docker/` from [.gitignore](.gitignore).
-- `docker/.git` is already removed on `make generate` command.
-- `git add . && git commit -m "Fresh Docker configuration"`
+1. Remove `docker/` from [.gitignore](.gitignore).
+2. `docker/.git` is already removed on `make generate` command.
+3. Remove the following block from [docker/frankenphp/docker-entrypoint.sh](docker/frankenphp/docker-entrypoint.sh) :
+```shell
+	# Install the project the first time PHP is started
+	# After the installation, the following block can be deleted
+	if [ ! -f composer.json ]; then
+		rm -Rf tmp/
+		composer create-project "symfony/skeleton $SYMFONY_VERSION" tmp --stability="$STABILITY" --prefer-dist --no-progress --no-interaction --no-install
+		# ...
+	fi
+```
+4`git add . && git commit -m "Fresh Docker configuration"`
 
 ## Makefile: variables overloading
 
 You can choose an another branch of my forked Symfony Docker repository, or customize the docker build process. To do this, create an `.overload` file and override the following variables :
 
 ```dotenv
+# .overload
+
 # See https://github.com/jprivet-dev/symfony-starter-compose-in-another-dir/branches
 BRANCH=next
 
@@ -117,6 +125,8 @@ COMPOSE_BUILD_OPTS=--no-cache
 ```
 
 These variables will be taken into account by the `make` commands.
+
+> As the variables are common to the `Makefile` and `docker compose`, I'm not attaching an environment file with the `--env-file` option at the moment. See https://docs.docker.com/compose/how-tos/environment-variables/.
 
 ## Shortcomings of this approach
 
