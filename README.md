@@ -108,6 +108,8 @@ After `make generate`:
 You can choose an another branch of my forked Symfony Docker repository, or customize the docker build process. To do this, create an `.overload` file and override the following variables :
 
 ```dotenv
+# .overload
+
 # See https://github.com/jprivet-dev/symfony-starter-compose-in-another-dir/branches
 BRANCH=next
 
@@ -123,6 +125,8 @@ COMPOSE_BUILD_OPTS=--no-cache
 ```
 
 These variables will be taken into account by the `make` commands.
+
+> As the variables are common to the `Makefile` and `docker compose`, I'm not attaching an environment file with the `--env-file` option at the moment. See https://docs.docker.com/compose/how-tos/environment-variables/.
 
 ## Shortcomings of this approach
 
