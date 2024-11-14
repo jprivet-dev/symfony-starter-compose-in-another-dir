@@ -31,7 +31,7 @@ REPOSITORY   = git@github.com:jprivet-dev/symfony-docker.git
 
 -include .overload
 
-BRANCH                 ?= main
+BRANCH                 ?= compose-in-another-dir
 PROJECT_NAME           ?= $(shell basename $(CURDIR))
 COMPOSE_BUILD_OPTS     ?=
 COMPOSE_UP_SERVER_NAME ?= $(PROJECT_NAME).localhost
