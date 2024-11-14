@@ -103,7 +103,7 @@ After `make generate`:
 		# ...
 	fi
 ```
-4`git add . && git commit -m "Fresh Docker configuration"`
+4. `git add . && git commit -m "Fresh Docker configuration"`
 
 ## Makefile: variables overloading
 
@@ -155,6 +155,7 @@ If you work on linux and cannot edit some of the project files right after the f
 - https://github.com/dunglas/symfony-docker/blob/main/docs/troubleshooting.md
 - https://github.com/dunglas/symfony-docker/blob/main/docs/options.md#docker-build-options
 - https://github.com/jprivet-dev/symfony-docker
+- https://github.com/jprivet-dev/makefiles
 - https://medium.com/@unhandlederror/how-to-run-docker-compose-from-another-directory-e94e081a80cc
 
 ## Comments, suggestions?
