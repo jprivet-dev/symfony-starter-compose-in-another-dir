@@ -29,7 +29,7 @@ REPOSITORY   = git@github.com:jprivet-dev/symfony-docker.git
 # OVERLOAD
 #
 
--include .overload
+-include overload/.env
 
 BRANCH                 ?= compose-in-another-dir
 PROJECT_NAME           ?= $(shell basename $(CURDIR))
@@ -315,10 +315,10 @@ overload_file: ## Show overload file loaded into that Makefile
 	@printf "\n$(Y)Overload file$(S)"
 	@printf "\n$(Y)-------------$(S)\n\n"
 	@printf "File loaded into that Makefile:\n\n"
-ifneq ("$(wildcard .overload)","")
-	@printf "* $(G)✔$(S) .overload\n"
+ifneq ("$(wildcard overload/.env)","")
+	@printf "* $(G)✔$(S) overload/.env\n"
 else
-	@printf "* $(R)⨯$(S) .overload\n"
+	@printf "* $(R)⨯$(S) overload/.env\n"
 endif
 
 .PHONY: env_files

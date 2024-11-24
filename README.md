@@ -62,6 +62,7 @@ Before `make generate`:
 
 ```
 ./
+├── overload/
 ├── scripts/
 ├── aliases
 ├── LICENSE
@@ -74,7 +75,8 @@ After `make generate`:
 ```
 ./
 ├── app/       <-- Fresh Symfony application
-├── docker/    <-- Fresh Docker configuration (in a parallel directory to app/)
+├── docker/    <-- Fresh Docker configuration
+├── overload/
 ├── scripts/
 ├── aliases
 ├── LICENSE
@@ -107,10 +109,10 @@ After `make generate`:
 
 ## Makefile: variables overloading
 
-You can choose an another branch of my forked Symfony Docker repository, or customize the docker build process. To do this, create an `.overload` file and override the following variables :
+You can choose an another branch of my forked Symfony Docker repository, or customize the docker build process. To do this, create an `overload/.env` file and override the following variables :
 
 ```dotenv
-# .overload
+# overload/.env
 
 # See https://github.com/jprivet-dev/symfony-starter-compose-in-another-dir/branches
 BRANCH=next
